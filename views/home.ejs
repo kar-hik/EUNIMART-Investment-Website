@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image with Name</title>
+
+    <style>
+      body {
+        background-color: #3d352a4e;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        background-color: #ffdd57;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .image {
+        max-width: 100px;
+        border-radius: 50%;
+      }
+
+      .text {
+        margin-left: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+        background-color: #f8f9fa;
+      }
+
+      th {
+        background-color: #ffc107;
+        color: #fff;
+      }
+
+      tr:nth-child(even) {
+        background-color: #ffcc80;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #fff59d;
+      }
+
+      .quantity-btn button {
+        background-color: #ff5722;
+        border: none;
+        color: white;
+      }
+
+      .quantity-btn button:hover {
+        background-color: #f4511e;
+      }
+
+      .bill-container {
+        background-color: #ffeb3b;
+        border: 1px solid #ff9800;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      #totalPrice {
+        color: #f44336;
+        font-weight: bold;
+      }
+
+      nav {
+        background-color: #3d352a4e;
+        height: 60px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        transition: background-color 0.3s, font-size 0.3s;
+      }
+
+      nav a:hover {
+        background-color: #555;
+        font-size: 18px;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          height: auto;
+        }
+
+        nav a {
+          margin-bottom: 10px;
+        }
+      }
+
+      #paymentForm {
+        background-color: #1976d2;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px auto;
+        max-width: 400px;
+      }
+
+      #paymentForm label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      #paymentForm input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: none;
+      }
+
+      #paymentForm button {
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #paymentForm button:hover {
+        background-color: #0d47a1;
+      }
+
+      #paymentResult {
+        margin-top: 10px;
+        display: none;
+      }
+      .welcome-header {
+        color: #fff; /* Set text color */
+        padding: 10px; /* Add padding */
+        text-align: left; /* Align text to the left */
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#billContainer">Holdings</a>
+      <a href="#watchlistContainer">Watchlist</a>
+      <a href="#soldStockContainer">Transactions</a>
+    </nav>
+    <div class="container">
+      <img
+        class="image"
+        src="https://t3.ftcdn.net/jpg/03/16/54/16/360_F_316541600_WCwQGVU93qfzj8io1YLPErQP6BQHdxp0.jpg"
+        alt="Logo"
+        width="160"
+        height="100"
+        id="home"
+      />
+      <div class="text">
+        <h2 style="margin-bottom: 5px">INVESTMENTS</h2>
+        <p>
+          Discover smart investment opportunities on our user-friendly platform
+          for financial growth.
+        </p>
+        <div class="welcome-header">
+          <h1 style="margin: 0">Hi, <%= username %></h1>
+          <!-- Adjust margin to 0 to remove default spacing -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of stock prices -->
+    <table>
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Name</th>
+          <th>CMP Rs.</th>
+          <th>Add to Cart</th>
+          <th>Add to Watchlist</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Nestle India</td>
+          <td>2456.10</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Life Insurance</td>
+          <td>979.15</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>P & G Hygiene</td>
+          <td>15905.25</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Waaree Renewab.</td>
+          <td>2734.70</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Lloyds Metals</td>
+          <td>711.90</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Colgate-Palmoliv</td>
+          <td>2799.15</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Coal India</td>
+          <td>474.60</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>TCS</td>
+          <td>3843.40</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>CG Power & Indu.</td>
+          <td>548.20</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>I R C T C</td>
+          <td>1052.45</td>
+          <td>
+            <div class="quantity-btn">
+              <button onclick="changeQuantity(this, -1)">-</button>
+              <input type="number" value="0" min="0" max="20" />
+              <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <button onclick="toggleWatchlist(this)">Add</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table id="stockTable"></table>
+    <script>
+      function changeQuantity(element, increment) {
+        const input = element.parentNode.querySelector("input");
+        let newValue = parseInt(input.value) + increment;
+        if (newValue < 0) {
+          newValue = 0;
+        } else if (newValue > 20) {
+          newValue = 20;
+        }
+        input.value = newValue;
+      }
+
+      function toggleWatchlist(button) {
+        const row = button.closest("tr");
+        const stockName = row.querySelector("td:nth-child(2)").innerText;
+        const watchlistTable = document
+          .getElementById("watchlistTable")
+          .getElementsByTagName("tbody")[0];
+
+        if (button.innerText === "Add") {
+          button.innerText = "Remove";
+
+          const newRow = document.createElement("tr");
+          newRow.innerHTML = `<td>${stockName}</td>`;
+          watchlistTable.appendChild(newRow);
+        } else {
+          button.innerText = "Add";
+
+          // Removing row from watchlist table
+          Array.from(watchlistTable.getElementsByTagName("tr")).forEach(
+            (row) => {
+              if (row.firstChild.innerText === stockName) {
+                row.remove();
+              }
+            }
+          );
+        }
+      }
+
+      // Function to handle the "Add to Cart" button click
+      function addToCart(button) {
+        const row = button.closest("tr");
+        const stockName = row.querySelector("td:nth-child(2)").innerText;
+        const quantity = parseInt(
+          row.querySelector('input[type="number"]').value
+        );
+        const boughtPrice = parseFloat(
+          row.querySelector("td:nth-child(4)").innerText
+        );
+      }
+
+      function yourHoldings() {
+        // Get the tbody element to append holding details
+        const holdingsTableBody = document
+          .getElementById("billTable")
+          .getElementsByTagName("tbody")[0];
+        holdingsTableBody.innerHTML = "";
+
+        document.querySelectorAll("tbody tr").forEach((row) => {
+          const inputElement = row.querySelector('input[type="number"]');
+          if (inputElement && parseInt(inputElement.value) > 0) {
+            const quantity = parseInt(inputElement.value);
+            const price = parseFloat(
+              row.querySelector("td:nth-child(3)").innerText
+            );
+            const stockName = row.querySelector("td:nth-child(2)").innerText;
+            const totalPrice = quantity * price;
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${stockName}</td>
+                <td>${quantity}</td>
+                <td>${price.toFixed(2)}</td>
+                <td id="currentPrice_${stockName}">-</td>
+                <td><button onclick="sellStock('billTable')">Sell</button></td>
+            `;
+            holdingsTableBody.appendChild(newRow);
+            updateCurrentPrice(stockName);
+          }
+        });
+      }
+
+      // Function to update the current price for a specific stock
+      function updateCurrentPrice(stockName) {
+        const currentPriceElement = document.getElementById(
+          `currentPrice_${stockName}`
+        );
+
+        if (currentPriceElement) {
+          const boughtPrice = parseFloat(
+            currentPriceElement.previousElementSibling.innerText
+          );
+          const fluctuation = generateRandomFluctuation();
+          const currentPrice = boughtPrice + fluctuation;
+          currentPriceElement.innerText = currentPrice.toFixed(2);
+        }
+      }
+
+      function calculateTotal() {
+        let totalPrice = 0;
+        document.querySelectorAll("tbody tr").forEach((row) => {
+          const inputElement = row.querySelector('input[type="number"]');
+          if (inputElement) {
+            const quantity = parseInt(inputElement.value);
+            const price = parseFloat(
+              row.querySelector("td:nth-child(3)").innerText
+            );
+
+            if (!isNaN(quantity) && quantity > 0 && !isNaN(price)) {
+              const subtotal = quantity * price;
+              totalPrice += subtotal;
+            }
+          }
+        });
+
+        // Display total price to pay
+        document.getElementById(
+          "totalPrice"
+        ).innerText = `Total Price to Pay: Rs. ${totalPrice.toFixed(2)}`;
+        return totalPrice;
+      }
+
+      // Function to simulate payment processing
+      function simulatePayment() {
+        const totalPrice = calculateTotal();
+        const amountToPay = parseFloat(
+          document.getElementById("amountToPay").value
+        );
+        const tolerance = 0.001;
+        if (Math.abs(amountToPay - totalPrice) < tolerance) {
+          const paymentResult = document.getElementById("paymentResult");
+          paymentResult.innerText = "Payment Successful!";
+          paymentResult.style.color = "green";
+          paymentResult.style.display = "block";
+          yourHoldings();
+        } else {
+          const paymentResult = document.getElementById("paymentResult");
+          paymentResult.innerText = `Amount paid (${amountToPay.toFixed(
+            2
+          )}) does not match total amount (${totalPrice.toFixed(2)}).`;
+          paymentResult.style.color = "red";
+          paymentResult.style.display = "block";
+        }
+      }
+
+      function generateRandomFluctuation() {
+        return Math.random() * 40 - 20;
+      }
+      function updateCurrentPrice() {
+        document.querySelectorAll("#billTable tbody tr").forEach((row) => {
+          const boughtPrice = parseFloat(
+            row.querySelector("td:nth-child(3)").innerText
+          );
+          const fluctuation = generateRandomFluctuation();
+          const currentPrice = boughtPrice + fluctuation;
+          row.querySelector("td:nth-child(4)").innerText =
+            currentPrice.toFixed(2);
+        });
+      }
+
+      // Function to simulate fluctuating prices and update the table periodically
+      function simulateFluctuatingPrices() {
+        updateCurrentPrice();
+        setInterval(updateCurrentPrice, 5000);
+      }
+      simulateFluctuatingPrices();
+
+      function sellStock() {
+        const row = event.target.closest("tr");
+        const stockName = row.querySelector("td:first-child").innerText;
+        const dateSold = new Date().toLocaleDateString(); // Current date
+        const quantity = parseInt(
+          row.querySelector("td:nth-child(2)").innerText
+        );
+        const price = parseFloat(
+          row.querySelector("td:nth-child(3)").innerText
+        );
+        const soldStockTable = document
+          .getElementById("soldStockTable")
+          .getElementsByTagName("tbody")[0];
+        const newRow = soldStockTable.insertRow();
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        const cell3 = newRow.insertCell(2);
+        const cell4 = newRow.insertCell(3);
+        cell1.innerText = stockName;
+        cell2.innerText = dateSold;
+        cell3.innerText = quantity;
+        cell4.innerText = "+" + price.toFixed(2);
+        row.remove();
+      }
+    </script>
+
+    <button
+      onclick="calculateTotal()"
+      style="
+        background-color: #4caf50; /* Green */
+        color: white;
+        padding: 12px 20px; /* Add some padding */
+        border: none;
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        transition: background-color 0.3s; /* Smooth transition on hover */
+      "
+    >
+      Generate Bill
+    </button>
+    <p id="totalPrice"></p>
+
+    <h1>Payment Details</h1>
+    <div id="paymentForm">
+      <label for="cardNumber">Card Number (16 digits):</label>
+      <input
+        type="text"
+        id="cardNumber"
+        placeholder="Enter card number"
+        maxlength="16"
+        required
+      /><br /><br />
+
+      <label for="expiryDate">Expiry Date (MM/YYYY):</label>
+      <input
+        type="month"
+        id="expiryDate"
+        placeholder="MM/YYYY"
+        min="yyyy-mm"
+        max="yyyy-mm"
+        required
+      />
+      <br /><br />
+
+      <label for="securityCode">CVV (4 digits):</label>
+      <input
+        type="text"
+        id="securityCode"
+        placeholder="Enter security code"
+        maxlength="4"
+        required
+      /><br /><br />
+
+      <label for="phoneNumber">Phone Number (10 digits):</label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        placeholder="Enter phone number"
+        maxlength="10"
+        required
+      /><br /><br />
+
+      <label for="otp">OTP (4 digits):</label>
+      <input
+        type="text"
+        id="otp"
+        placeholder="Enter OTP"
+        maxlength="4"
+        required
+      /><br /><br />
+      <label for="amountToPay">Amount to Pay:</label>
+      <input
+        type="number"
+        id="amountToPay"
+        placeholder="Enter amount"
+        min="0"
+        step="0.01"
+        required
+      />
+
+      <button onclick="simulatePayment()">Pay Now</button>
+
+      <div id="paymentResult" style="display: none"></div>
+    </div>
+    <div class="bill-container" id="billContainer">
+      <h2>Your Holdings</h2>
+      <table id="billTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Bought Price (Rs.)</th>
+            <th>Current Price (Rs.)</th>
+            <th>Sell</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Bill details will be appended here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bill-container" id="watchlistContainer">
+      <h2>Your Watchlist</h2>
+      <table id="watchlistTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Watchlist details will be appended here -->
+        </tbody>
+      </table>
+    </div>
+    <div class="bill-container" id="soldStockContainer">
+      <h2>Transactions</h2>
+      <table id="soldStockTable">
+        <thead>
+          <tr>
+            <th>Stock Name</th>
+            <th>Date Sold</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sold stock details will be appended here -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
