@@ -20,11 +20,12 @@ This project is a web-based investment platform that allows users to explore and
 ## Set up MongoDB
 1. Install MongoDB if not already installed.
 2. Create a MongoDB database named `Login-tut`.
+3. Create a connection in `Login-tut` as `users`.
 
 ## Usage
 1. **Start the server:**
     ```bash
-    npm start
+    nodemon src/index.js
     ```
 2. Open your browser and go to [http://localhost:8000](http://localhost:8000) to access the application.
 
